@@ -1,0 +1,9 @@
+<h2>My Orders</h2>
+
+<% @orders.each do |order| %>
+  <p>
+    Order #<%= order.id %> -
+    Total: $<%= number_with_precision(order.total, precision: 2) %> -
+    <%= link_to "View", order_path(order) %>
+  </p>
+<% end %>

@@ -1,0 +1,15 @@
+<h1>Edit Page</h1>
+
+<%= form_with model: @page do |f| %>
+  <div>
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </div>
+
+  <div>
+    <%= f.label :content %>
+    <%= f.text_area :content %>
+  </div>
+
+  <%= f.submit "Update", class: "btn btn-dark" %>
+<% end %>

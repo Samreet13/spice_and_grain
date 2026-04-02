@@ -1,0 +1,84 @@
+<h1>Checkout</h1>
+
+<% @products.each do |product| %>
+  <p>
+    <%= product.name %> -
+    Qty: <%= @cart[product.id.to_s] %>
+  </p>
+<% end %>
+
+<%= form_with url: orders_path, method: :post do %>
+
+  <% if current_customer.address.present? %>
+
+    <h3>Shipping Address</h3>
+    <p>
+      <%= current_customer.address %>, 
+      <%= current_customer.city %>
+    </p>
+    <p><%= current_customer.province&.name %></p>
+
+    <button type="button" onclick="toggleAddressForm()" class="btn btn-warning">
+      Change Address
+    </button>
+
+    <div id="address-form" style="display:none; margin-top:15px;">
+
+      <h4>Enter New Address</h4>
+
+      <div>
+        <label>Address:</label>
+        <%= text_field_tag :address %>
+      </div>
+
+      <div>
+        <label>City:</label>
+        <%= text_field_tag :city %>
+      </div>
+
+      <div>
+        <label>Province:</label>
+        <%= select_tag :province_id,
+              options_from_collection_for_select(@provinces, :id, :name),
+              prompt: "Select Province" %>
+      </div>
+
+    </div>
+
+    <%= hidden_field_tag :province_id, current_customer.province_id %>
+
+  <% else %>
+
+    <h3>Add Address</h3>
+
+    <div>
+      <label>Address:</label>
+      <%= text_field_tag :address %>
+    </div>
+
+    <div>
+      <label>City:</label>
+      <%= text_field_tag :city %>
+    </div>
+
+    <div>
+      <label>Province:</label>
+      <%= select_tag :province_id,
+            options_from_collection_for_select(@provinces, :id, :name),
+            prompt: "Select Province",
+            required: true %>
+    </div>
+
+  <% end %>   <!-- 🔥 THIS WAS MISSING -->
+
+  <br>
+  <%= submit_tag "Place Order", class: "btn btn-success" %>
+
+<% end %>   <!-- form_with -->
+
+<script>
+  function toggleAddressForm() {
+    var form = document.getElementById("address-form");
+    form.style.display = form.style.display === "none" ? "block" : "none";
+  }
+</script>

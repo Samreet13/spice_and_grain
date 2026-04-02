@@ -1,0 +1,63 @@
+<nav>
+  <%= link_to "Home", root_path %> >
+  <%= link_to "Products", products_path %> >
+  <%= @product.name %>
+</nav>
+
+<p style="color: green"><%= notice %></p>
+
+<h2><%= @product.name %></h2>
+
+<!-- ✅ BADGES -->
+<div class="mb-2">
+  <% if @product.on_sale %>
+    <span class="badge bg-success">On Sale</span>
+  <% end %>
+
+  <% if @product.created_at >= 3.days.ago %>
+    <span class="badge bg-primary">New</span>
+  <% end %>
+
+  <% if @product.updated_at >= 3.days.ago && @product.created_at < 3.days.ago %>
+    <span class="badge bg-warning text-dark">Updated</span>
+  <% end %>
+</div>
+
+<p><strong>Description:</strong> <%= @product.description %></p>
+
+<!-- ✅ PRICE (SALE FORMAT) -->
+<p>
+  <strong>Price:</strong>
+  <% if @product.on_sale %>
+    <span style="text-decoration: line-through;">
+      $<%= @product.price %>
+    </span>
+    <strong class="text-success">$<%= @product.sale_price %></strong>
+  <% else %>
+    $<%= @product.price %>
+  <% end %>
+</p>
+
+<p><strong>Stock:</strong> <%= @product.stock_quantity %></p>
+
+<p><strong>Categories:</strong>
+  <% @product.categories.each do |cat| %>
+    <span class="badge bg-secondary"><%= cat.name %></span>
+  <% end %>
+</p>
+
+<!-- ✅ IMAGE -->
+<% if @product.image.attached? %>
+  <%= image_tag @product.image, width: 300 %>
+<% end %>
+
+<hr>
+
+<div>
+  <% if admin_user_signed_in? %>
+    <%= link_to "Edit this product", edit_product_path(@product), class: "btn btn-warning" %>
+    <%= button_to "Destroy this product", @product, method: :delete, class: "btn btn-danger" %>
+  <% end %>
+
+  <%= link_to "Back to products", products_path, class: "btn btn-dark" %>
+</div>

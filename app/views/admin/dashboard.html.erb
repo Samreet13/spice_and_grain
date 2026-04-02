@@ -1,0 +1,8 @@
+<h1>Admin Dashboard</h1>
+
+<p><%= link_to "Manage Products", products_path, class: "btn btn-dark" %></p>
+<p><%= link_to "Manage Categories", categories_path, class: "btn btn-secondary" %></p>
+<h3>Manage Pages</h3>
+<% Page.all.each do |page| %>
+  <%= link_to "Edit #{page.title}", edit_page_path(page), class: "btn btn-dark m-1" %>
+<% end %>
