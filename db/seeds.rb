@@ -6,6 +6,7 @@ puts "Cleaning database..."
 OrderItem.destroy_all
 Order.destroy_all
 Customer.destroy_all
+AdminUser.destroy_all if defined?(AdminUser)
 
 ProductCategory.destroy_all if defined?(ProductCategory)
 
@@ -35,26 +36,25 @@ Province.create!(name: "Ontario", gst: 0, pst: 0, hst: 0.13)
 Province.create!(name: "Prince Edward Island", gst: 0, pst: 0, hst: 0.15)
 Province.create!(name: "Quebec", gst: 0.05, pst: 0.09975, hst: 0)
 Province.create!(name: "Saskatchewan", gst: 0.05, pst: 0.06, hst: 0)
-
 Province.create!(name: "Northwest Territories", gst: 0.05, pst: 0, hst: 0)
 Province.create!(name: "Nunavut", gst: 0.05, pst: 0, hst: 0)
 Province.create!(name: "Yukon", gst: 0.05, pst: 0, hst: 0)
 
 puts "Creating products from CSV..."
 
-csv_products = CSV.read(Rails.root.join('db/products.csv'), headers: true)
+csv_products = CSV.read(Rails.root.join("db/products.csv"), headers: true)
 
 csv_products.each do |row|
   product = Product.create!(
-    name: row['name'],
-    description: row['description'],
-    price: row['price'],
+    name: row["name"],
+    description: row["description"],
+    price: row["price"],
     stock_quantity: rand(5..50),
     on_sale: [true, false].sample,
     sale_price: rand(2.0..15.0).round(2)
   )
 
-  category = Category.find_by(name: row['category'])
+  category = Category.find_by(name: row["category"])
   product.categories << category if category
 end
 
@@ -80,4 +80,12 @@ puts "Creating pages..."
 Page.create!(title: "About", content: "This is about our store.")
 Page.create!(title: "Contact", content: "Contact us at email@example.com")
 
-puts "Seeded #{Product.count} products!"AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+if Rails.env.development?
+  AdminUser.create!(
+    email: "admin@example.com",
+    password: "password",
+    password_confirmation: "password"
+  )
+end
+
+puts "Seeded #{Product.count} products!"
