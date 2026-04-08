@@ -54,7 +54,8 @@ class OrdersController < ApplicationController
       hst: hst,
       total: total,
       province: province,
-      customer: current_customer
+      customer: current_customer,
+      status: :new_order
     )
 
     # ✅ CREATE ORDER ITEMS

@@ -13,6 +13,7 @@
     </li>
   <% end %>
 </ul>
+<p><strong>Status:</strong> <%= @order.status.humanize %></p>
 <p>Address: <%= current_customer.address %>, <%= current_customer.city %></p>
 <p>Province: <%= current_customer.province&.name || "Not set" %></p>
 <p>Subtotal: $<%= number_with_precision(@order.subtotal, precision: 2) %></p>

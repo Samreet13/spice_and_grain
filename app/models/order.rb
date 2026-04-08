@@ -5,9 +5,9 @@ class Order < ApplicationRecord
   has_many :order_items
   has_many :products, through: :order_items
 
-  enum status: { new_order: 0, paid: 1, shipped: 2 }
-  
   validates :total, presence: true
+
+  enum :status, { new_order: 0, paid: 1, shipped: 2 }
 
   def self.ransackable_attributes(auth_object = nil)
     column_names
