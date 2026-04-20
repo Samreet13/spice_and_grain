@@ -22,7 +22,7 @@ class OrdersController < ApplicationController
       quantity = cart[product.id.to_s].to_i
       subtotal += price * quantity
     end
-
+# Handles checkout process
     # ✅ USE SAVED PROVINCE OR FALLBACK
     province = if current_customer.province.present?
                  current_customer.province
