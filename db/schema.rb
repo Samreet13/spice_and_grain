@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_04_02_161335) do
+ActiveRecord::Schema[7.2].define(version: 2026_04_08_153549) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -111,6 +111,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_02_161335) do
     t.decimal "pst"
     t.decimal "hst"
     t.integer "province_id", null: false
+    t.integer "status"
+    t.string "stripe_payment_id"
     t.index ["province_id"], name: "index_orders_on_province_id"
   end
 

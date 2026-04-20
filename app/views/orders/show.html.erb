@@ -2,6 +2,7 @@
 
 <p><strong>Order ID:</strong> <%= @order.id %></p>
 <p><strong>Province:</strong> <%= @order.province.name %></p>
+
 <h3>Products:</h3>
 
 <ul>
@@ -13,9 +14,12 @@
     </li>
   <% end %>
 </ul>
+
 <p><strong>Status:</strong> <%= @order.status.humanize %></p>
+
 <p>Address: <%= current_customer.address %>, <%= current_customer.city %></p>
 <p>Province: <%= current_customer.province&.name || "Not set" %></p>
+
 <p>Subtotal: $<%= number_with_precision(@order.subtotal, precision: 2) %></p>
 
 <p>GST: $<%= number_with_precision(@order.gst, precision: 2) %></p>
@@ -30,5 +34,76 @@
 
 <h3>Total: $<%= number_with_precision(@order.total, precision: 2) %></h3>
 <p><strong>Total Paid:</strong> $<%= @order.total.round(2) %></p>
+
+<% if @order.new_order? %>
+
+  <h3>Pay for Order</h3>
+
+  <form id="payment-form">
+    <div id="card-element"></div>
+    <br>
+    <button id="submit" class="btn btn-primary">Pay Now</button>
+  </form>
+
+  <p id="payment-message"></p>
+
+  <script src="https://js.stripe.com/v3/"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+      const stripe = Stripe("<%= Rails.application.credentials.dig(:stripe, :publishable_key) %>");
+      const elements = stripe.elements();
+
+      const card = elements.create("card");
+      card.mount("#card-element");
+
+      const form = document.getElementById("payment-form");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const response = await fetch("<%= payments_path %>", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content
+          },
+          body: JSON.stringify({ order_id: <%= @order.id %> })
+        });
+
+        const data = await response.json();
+
+        const result = await stripe.confirmCardPayment(data.client_secret, {
+          payment_method: {
+            card: card
+          }
+        });
+
+        if (result.error) {
+          document.getElementById("payment-message").innerText = result.error.message;
+        } else {
+
+          await fetch("/payments/confirm", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({ order_id: <%= @order.id %> })
+          });
+
+          document.getElementById("payment-message").innerText = "Payment successful!";
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
+      });
+
+    });
+  </script>
+
+<% end %>
 
 <%= link_to "Back to Products", products_path, class: "btn btn-dark" %>
