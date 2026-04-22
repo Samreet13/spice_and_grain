@@ -1,6 +1,10 @@
-<p style="color: green"><%= notice %></p>
+<% if notice.present? %>
+  <p class="text-success"><%= notice %></p>
+<% end %>
+
 <!-- Product grid improvement -->
 <!-- Product listing page with filters and search -->
+
 <h1>Products</h1>
 
 <%= form_with url: products_path, method: :get, local: true do %>
@@ -25,8 +29,8 @@
 
   </div>
 <% end %>
-<!-- Product details UI improvement -->
-<!-- Improved product listing UI -->
+
+<!-- Filters -->
 <p>
   <strong>Filter:</strong>
   <%= link_to "All", products_path %> |
@@ -45,7 +49,7 @@
       <div class="col-md-4 mb-4">
         <div class="card p-3 h-100">
 
-          <!-- ✅ BADGES -->
+          <!-- BADGES -->
           <div class="mb-2">
             <% if product.on_sale %>
               <span class="badge bg-success">On Sale</span>
@@ -60,17 +64,17 @@
             <% end %>
           </div>
 
-          <!-- ✅ IMAGE -->
+          <!-- IMAGE -->
           <% if product.image.attached? %>
             <%= image_tag product.image,
               class: "img-fluid mb-2",
               style: "height:150px; object-fit:cover;" %>
           <% end %>
 
-          <!-- ✅ NAME -->
-          <h2 class="card-title"><%= product.name %></h5>
+          <!-- NAME (FIXED HEADING LEVEL) -->
+          <h2 class="card-title h5"><%= product.name %></h2>
 
-          <!-- ✅ PRICE -->
+          <!-- PRICE -->
           <p>
             Price:
             <% if product.on_sale %>
@@ -85,25 +89,29 @@
 
           <p>Stock: <%= product.stock_quantity %></p>
 
-          <!-- ✅ CATEGORIES -->
+          <!-- CATEGORIES -->
           <div class="mb-2">
             <% product.categories.each do |cat| %>
               <span class="badge bg-secondary"><%= cat.name %></span>
             <% end %>
           </div>
 
-          <!-- ✅ BUTTONS -->
+          <!-- BUTTONS -->
           <%= link_to "View", product, class: "btn btn-dark btn-sm" %>
 
-<%= button_to "Add to Cart",
-    add_to_cart_path(product),
-    method: :post,
-    class: "btn btn-success btn-sm mt-1" %>
+          <%= button_to "Add to Cart",
+              add_to_cart_path(product),
+              method: :post,
+              class: "btn btn-success btn-sm mt-1",
+              form: { autocomplete: "on" } %>
 
-<% if admin_user_signed_in? %>
-  <%= link_to "Edit", edit_product_path(product), class: "btn btn-warning btn-sm" %>
-  <%= link_to "Delete", product, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm" %>
-<% end %>
+          <% if admin_user_signed_in? %>
+            <%= link_to "Edit", edit_product_path(product), class: "btn btn-warning btn-sm" %>
+            <%= link_to "Delete", product,
+                method: :delete,
+                data: { confirm: "Are you sure?" },
+                class: "btn btn-danger btn-sm" %>
+          <% end %>
 
         </div>
       </div>
