@@ -40,6 +40,7 @@ class OrdersController < ApplicationController
     end
 
     # ✅ TAX CALCULATIONS
+    # Calculate total with GST, PST, HST
     gst = subtotal * province.gst
     pst = subtotal * province.pst
     hst = subtotal * province.hst
