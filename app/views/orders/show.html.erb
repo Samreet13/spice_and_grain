@@ -21,7 +21,7 @@
 
 <p>Address: <%= current_customer.address %>, <%= current_customer.city %></p>
 <p>Province: <%= current_customer.province&.name || "Not set" %></p>
-
+<h4 class="mt-3">Payment Section</h4>
 <p>Subtotal: $<%= number_with_precision(@order.subtotal, precision: 2) %></p>
 
 <p>GST: $<%= number_with_precision(@order.gst, precision: 2) %></p>
