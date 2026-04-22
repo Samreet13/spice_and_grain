@@ -1,3 +1,4 @@
+# Handles Stripe payment processing and confirmation
 class PaymentsController < ApplicationController
   before_action :authenticate_customer!
 
