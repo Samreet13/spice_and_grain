@@ -1,0 +1,50 @@
+/* Added SCSS variables and nesting */
+// VARIABLES
+$primary-color: #2c3e50;
+$secondary-color: #f8f9fa;
+
+// GLOBAL
+body {
+  background-color: $secondary-color;
+}
+
+// NAVBAR (NESTING)
+.navbar {
+  background-color: #1f2933; // dark clean color
+  padding: 10px;
+
+  .btn {
+    border-radius: 6px;
+  }
+
+  a {
+    color: white;
+    font-weight: 500;
+  }
+}
+.navbar .btn-outline-light:hover {
+  background-color: white;
+  color: black;
+}
+
+// CARD STYLE
+.card {
+  border-radius: 10px;
+  padding: 15px;
+}
+
+// BUTTON STYLE
+.btn {
+  border-radius: 5px;
+}
+
+// INHERITANCE (OPTIONAL BONUS)
+%center-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center-box {
+  @extend %center-content;
+}
