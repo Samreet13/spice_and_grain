@@ -1,29 +1,29 @@
+<nav class="navbar navbar-dark bg-dark px-3">
+  <div class="container">
+    <a class="navbar-brand" href="/">Spice & Grain</a>
 
-   <!-- Navbar styling update -->
-    <nav class="navbar navbar-dark bg-dark px-3">
-      <div class="container">
-        <a class="navbar-brand" href="/">Spice & Grain</a>
+    <div>
+      <%= link_to "Products", products_path, class: "btn btn-outline-light me-2" %>
+      <%= link_to "Categories", categories_path, class: "btn btn-outline-light me-2" %>
+      <%= link_to "Admin", "/admin", class: "btn btn-warning me-2" %>
 
-        <div>
-          <%= link_to "Products", products_path, class: "btn btn-light btn-sm" %>
-          <%= link_to "Categories", categories_path, class: "btn btn-light btn-sm" %>
-          <%= link_to "Admin", "/admin", class: "btn btn-warning btn-sm" %>
+      <%= link_to "My Cart", cart_path, class: "btn btn-outline-light me-2" %>
 
-          <%= link_to "My Cart", cart_path, class: "btn btn-light btn-sm" %>
+      <%= link_to "About", page_path("About"), class: "btn btn-outline-light me-2" %>
+      <%= link_to "Contact", page_path("Contact"), class: "btn btn-outline-light me-2" %>
 
-          <%= link_to "About", page_path("About"), class: "btn btn-light btn-sm" %>
-          <%= link_to "Contact", page_path("Contact"), class: "btn btn-light btn-sm" %>
-          <% if admin_user_signed_in? %>
-          <%= button_to "Logout", destroy_admin_user_session_path, method: :delete, class: "btn btn-danger btn-sm" %>
-          <% end %>
-          <% if customer_signed_in? %>
-  <%= link_to "My Orders", orders_path, class: "btn btn-light" %>
-  <%= link_to "Edit Profile", edit_customer_registration_path %>
-  <%= button_to "Logout", destroy_customer_session_path, method: :delete, class: "btn btn-danger" %>
-<% else %>
-  <%= link_to "Sign Up", new_customer_registration_path, class: "btn btn-light btn-sm" %>
-    <%= link_to "Login", new_customer_session_path, class: "btn btn-light btn-sm" %>
-<% end %>
-        </div>
-      </div>
-    </nav>
+      <% if admin_user_signed_in? %>
+        <%= button_to "Logout", destroy_admin_user_session_path, method: :delete, class: "btn btn-outline-light me-2" %>
+      <% end %>
+
+      <% if customer_signed_in? %>
+        <%= link_to "My Orders", orders_path, class: "btn btn-outline-light me-2" %>
+        <%= link_to "Edit Profile", edit_customer_registration_path, class: "btn btn-outline-light me-2" %>
+        <%= button_to "Logout", destroy_customer_session_path, method: :delete, class: "btn btn-outline-light me-2" %>
+      <% else %>
+        <%= link_to "Sign Up", new_customer_registration_path, class: "btn btn-outline-light me-2" %>
+        <%= link_to "Login", new_customer_session_path, class: "btn btn-outline-light me-2" %>
+      <% end %>
+    </div>
+  </div>
+</nav>
