@@ -60,3 +60,4 @@ group :test do
 end
 
 gem "activeadmin", "~> 3.5"
+gem 'rubocop', require: false
